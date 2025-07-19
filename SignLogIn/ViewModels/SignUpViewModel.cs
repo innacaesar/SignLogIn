@@ -7,7 +7,7 @@ using SignLogIn.Views;
 
 namespace SignLogIn.ViewModels
 {
-    public partial class MainViewModel : ObservableObject
+    public partial class SignUpViewModel : ObservableObject
     {
         private readonly UsersDataBase _database;
 
@@ -35,7 +35,7 @@ namespace SignLogIn.ViewModels
         [ObservableProperty]
         private bool _isBusy;
 
-        public MainViewModel()
+        public SignUpViewModel()
         {
             _database = new UsersDataBase();
 

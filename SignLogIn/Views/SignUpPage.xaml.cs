@@ -1,14 +1,14 @@
 ﻿using SignLogIn.ViewModels;
 namespace SignLogIn
 {
-    public partial class MainPage : ContentPage
+    public partial class SignUpPage : ContentPage
     {
        
 
-        public MainPage()
+        public SignUpPage()
         {
             InitializeComponent();
-            BindingContext = new MainViewModel();
+            BindingContext = new SignUpViewModel();
         }
 
         

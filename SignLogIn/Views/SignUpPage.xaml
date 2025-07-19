@@ -5,7 +5,7 @@
              FlowDirection="RightToLeft"
              xmlns:viewmodels="clr-namespace:SignLogIn.ViewModels"
              IsBusy="{Binding IsBusy}"
-             x:Class="SignLogIn.MainPage">
+             x:Class="SignLogIn.SignUpPage">
 
     <!--  רקע דף  -->
     <ContentPage.Background>

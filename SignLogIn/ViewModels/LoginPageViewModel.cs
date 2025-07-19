@@ -46,7 +46,7 @@ namespace SignLogIn.ViewModels
                     // User exists and password matches
                     Error = string.Empty; // Clear any previous error message
                     // Navigate to the main page or perform login success actions
-                    await App.Current.MainPage.DisplayAlert("התחברות", "התחברת!", "OK");
+                    await App.Current.MainPage.DisplayAlert("התחברות", "!התחברת", "OK");
 
                     //TODO: Navigate to the special page  after successful login
                     
@@ -69,7 +69,7 @@ namespace SignLogIn.ViewModels
         {
             // Navigate to the sign-up page
 
-            await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+            await App.Current.MainPage.Navigation.PushAsync(new SignUpPage());
 
         }
     }
