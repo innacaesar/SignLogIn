@@ -101,6 +101,20 @@
         </Border>
 
         <!--  כפתור הרשמה ושמירת נתונים בטלפון -->
+        <FlexLayout Padding="10"
+            Direction="Row"
+            JustifyContent="Center"
+            AlignItems="Center">
+                        <CheckBox
+            IsChecked="{Binding IsChecked, Mode=TwoWay}"
+            Color="White" />
+            <Label
+            Text="שמור אותי מחובר"
+            FontSize="24"
+            TextColor="White"
+            VerticalOptions="Center" />
+        </FlexLayout>
+
         <Button
         
         CornerRadius="20"
@@ -111,19 +125,7 @@
         Command="{Binding SaveUserCommand}"
         TextColor="White" />
 
-        <FlexLayout Padding="10"
-        Direction="Row"
-        JustifyContent="Center"
-        AlignItems="Center">
-        <CheckBox
-        IsChecked="{Binding IsChecked, Mode=TwoWay}"
-        Color="White" />
-            <Label
-        Text="שמור אותי מחובר"
-        FontSize="24"
-        TextColor="White"
-        VerticalOptions="Center" />
-        </FlexLayout>
+        
         <!--  שגיאה  -->
         <Label
         
