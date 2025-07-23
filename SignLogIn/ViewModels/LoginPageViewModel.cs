@@ -30,6 +30,7 @@ namespace SignLogIn.ViewModels
         {
             _database = new UsersDataBase();
 
+
         }
         [RelayCommand]
         private async void GoLogin()
@@ -37,6 +38,16 @@ namespace SignLogIn.ViewModels
             
             IsBusy = true; // Indicate that the app is busy (for loading indicator)
             await Task.Delay(100); // Simulate some delay for UI responsiveness
+            //check if preference is not empty
+            if (Preferences.ContainsKey("Email") && Preferences.ContainsKey("Password"))
+            {
+                Email = Preferences.Get("Email", string.Empty);
+                Password = Preferences.Get("Password", string.Empty);
+                // Navigate to the main page or perform login success actions
+                await App.Current.MainPage.DisplayAlert("התחברות", "!התחברת", "OK");
+                //TODO: Navigate to the special page  after successful login
+                IsBusy = false; // Reset busy state
+            }
             if (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
             {
                 // Check if user exists
@@ -47,9 +58,7 @@ namespace SignLogIn.ViewModels
                     Error = string.Empty; // Clear any previous error message
                     // Navigate to the main page or perform login success actions
                     await App.Current.MainPage.DisplayAlert("התחברות", "!התחברת", "OK");
-
                     //TODO: Navigate to the special page  after successful login
-                    
                     IsBusy = false; // Reset busy state
                 }
                 else

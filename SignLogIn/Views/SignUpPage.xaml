@@ -20,7 +20,7 @@
     Padding="10"
     Spacing="10"
     VerticalOptions="Center">
-        <Image Source="logoor.png" HorizontalOptions="End" VerticalOptions="Start" TranslationY="-87"/>
+        <Image Source="logoor.png" HorizontalOptions="End" VerticalOptions="Start" TranslationY="-60"/>
         <!--  כותרת  -->
         <Label
         FontAttributes="Bold"
@@ -100,7 +100,7 @@
                 TextColor="Wheat" />
         </Border>
 
-        <!--  כפתור כניסה  -->
+        <!--  כפתור הרשמה ושמירת נתונים בטלפון -->
         <Button
         
         CornerRadius="20"
@@ -110,6 +110,20 @@
         Text="הרשמה"
         Command="{Binding SaveUserCommand}"
         TextColor="White" />
+
+        <FlexLayout Padding="10"
+        Direction="Row"
+        JustifyContent="Center"
+        AlignItems="Center">
+        <CheckBox
+        IsChecked="{Binding IsChecked, Mode=TwoWay}"
+        Color="White" />
+            <Label
+        Text="שמור אותי מחובר"
+        FontSize="24"
+        TextColor="White"
+        VerticalOptions="Center" />
+        </FlexLayout>
         <!--  שגיאה  -->
         <Label
         

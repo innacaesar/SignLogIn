@@ -35,6 +35,9 @@ namespace SignLogIn.ViewModels
         [ObservableProperty]
         private bool _isBusy;
 
+        [ObservableProperty]
+        private bool isChecked = false;
+
         public SignUpViewModel()
         {
             _database = new UsersDataBase();
@@ -47,8 +50,15 @@ namespace SignLogIn.ViewModels
         {   //TODO : להעביר לכניסה
             IsBusy = true; // מסמן שהאפליקציה בתהליך (להצגת מחוון טעינה)
             await Task.Delay(100); // Simulate some delay for UI responsiveness
-                                   /////////////////////////////////////////////////////////////////////
+            if(IsChecked)
+            {
+                //save the email and the password in the preferences
+                Preferences.Set("Email", Email);
+                Preferences.Set("Password", Password);
 
+            }
+
+            // Check if all fields are filled
             if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(name) &&
                 !string.IsNullOrEmpty(email) &&
                 !string.IsNullOrEmpty(phone))
