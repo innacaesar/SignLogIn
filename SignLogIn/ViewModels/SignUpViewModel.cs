@@ -1,15 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SignLogIn.Data;
 using SignLogIn.Models;
 using SignLogIn.Helper;
 using SignLogIn.Views;
+using SignLogIn.Services;
 
 namespace SignLogIn.ViewModels
 {
     public partial class SignUpViewModel : ObservableObject
     {
-        private readonly UsersDataBase _database;
+        //private readonly UsersDataBase _database;
+        private readonly IUserRepository _repository;
 
         [ObservableProperty]
         private string name;
@@ -38,10 +39,17 @@ namespace SignLogIn.ViewModels
         [ObservableProperty]
         private bool isChecked = false;
 
-        public SignUpViewModel()
+        public SignUpViewModel(IUserRepository repository)
         {
-            _database = new UsersDataBase();
-
+            //_database = new UsersDataBase();
+            _repository = repository;
+            // Initialize properties
+            Name = string.Empty;
+            Email = string.Empty;
+            Password = string.Empty;
+            Phone = string.Empty;
+            Error = string.Empty;
+            IsBusy = false; // Initially not busy
         }
 
 
@@ -64,14 +72,14 @@ namespace SignLogIn.ViewModels
                 !string.IsNullOrEmpty(phone))
             {
                 // Check if user already exists
-                var existingUser = await _database.GetUserByEmailAsync(email);
+                var existingUser = await _repository.GetUserByEmailAsync(email);
                 if (existingUser != null)
                 {
                     //await App.Current.MainPage.DisplayAlert("שגיאה", "כבר קיים משתמש זה", "אישור");
                     Error = "המשתמש כבר קיים";
                     return;
                 }
-                existingUser = await _database.GetUserByPhoneAsync(phone);
+                existingUser = await _repository.GetUserByPhoneAsync(phone);
                 if (existingUser != null)
                 {
                     //await App.Current.MainPage.DisplayAlert("שגיאה", "מספר טלפון זה כבר בשימוש", "אישור");
@@ -93,10 +101,9 @@ namespace SignLogIn.ViewModels
 
                 //await App.Current.MainPage.DisplayAlert("הרשמה", "  הרשמה בוצעה בהצלחה " + Password, "אישור");
                 var newUser = new User { Name = Name, Password = Password, Phone = Phone, Email = Email };
-                await _database.SaveUserAsync(newUser);
+                await _repository.SaveUserAsync(newUser);
                 Error = "הרשמה בוצעה בהצלחה";
-                IsBusy = false; // מסיים את מצב "עסוק"///////////////////////////////////////////
-                                //TODO LOGIN
+                IsBusy = false; // מסיים את מצב "עסוק"
 
             }
             else
@@ -114,10 +121,11 @@ namespace SignLogIn.ViewModels
         }
 
         [RelayCommand]
-        private async void NavigateToLogin()
+        private async void NavigateToLogin(LoginPage page)
         {
-            // Navigate to the login page
-            await App.Current.MainPage.Navigation.PushAsync(new LoginPage());
+            // Navigate to the login page, not working with the view model
+
+            await App.Current.MainPage.Navigation.PushAsync(page);
 
         }
     }

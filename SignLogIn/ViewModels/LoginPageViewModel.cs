@@ -1,13 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SignLogIn.Data;
+
 using SignLogIn.Helper;
+using SignLogIn.Services;
+using SignLogIn.Views;
 
 namespace SignLogIn.ViewModels
 {
     public partial class LoginPageViewModel : ObservableObject
     {
-        private readonly UsersDataBase _database;
+        //private readonly UsersDataBase _database;
+        private readonly IUserRepository _repository;
+
         [ObservableProperty]
         private string email;
         [ObservableProperty]
@@ -26,9 +30,15 @@ namespace SignLogIn.ViewModels
             IsPassword = !IsPassword;
             EyeIcon = IsPassword ? FontHelper.OPEN_EYE_ICON : FontHelper.CLOSED_EYE_ICON;
         }
-        public LoginPageViewModel()
+        public LoginPageViewModel(IUserRepository repository)
         {
-            _database = new UsersDataBase();
+            // _database = new UsersDataBase();
+            _repository = repository;
+            // Initialize properties if needed
+            Email = string.Empty;
+            Password = string.Empty;
+            Error = string.Empty;
+            IsBusy = false; // Initially not busy
 
 
         }
@@ -38,6 +48,7 @@ namespace SignLogIn.ViewModels
             
             IsBusy = true; // Indicate that the app is busy (for loading indicator)
             await Task.Delay(100); // Simulate some delay for UI responsiveness
+
             //check if preference is not empty
             if (Preferences.ContainsKey("Email") && Preferences.ContainsKey("Password"))
             {
@@ -51,7 +62,7 @@ namespace SignLogIn.ViewModels
             if (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
             {
                 // Check if user exists
-                var user = await _database.GetUserByEmailAsync(Email);
+                var user = await _repository.GetUserByEmailAsync(Email);
                 if (user != null && user.Password == Password)
                 {
                     // User exists and password matches
@@ -74,11 +85,11 @@ namespace SignLogIn.ViewModels
             
         }
         [RelayCommand]
-        private async void NavigateToRegist()
+        private async void NavigateToRegist(SignUpPage page)
         {
             // Navigate to the sign-up page
 
-            await App.Current.MainPage.Navigation.PushAsync(new SignUpPage());
+            await App.Current.MainPage.Navigation.PushAsync(page);
 
         }
     }

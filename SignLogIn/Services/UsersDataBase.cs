@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using SignLogIn.Models;
 using SQLite;
 
-namespace SignLogIn.Data
+namespace SignLogIn.Services
+
 {
-    public class UsersDataBase
+    public class UsersDataBase : IUserRepository
     {
         private readonly SQLiteAsyncConnection _connection;
         public UsersDataBase()
