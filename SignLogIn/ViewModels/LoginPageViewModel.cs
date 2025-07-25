@@ -49,11 +49,12 @@ namespace SignLogIn.ViewModels
             IsBusy = true; // Indicate that the app is busy (for loading indicator)
             await Task.Delay(100); // Simulate some delay for UI responsiveness
 
-            //check if preference is not empty
-            if (Preferences.ContainsKey("Email") && Preferences.ContainsKey("Password"))
+            //check if preference and secure storage is not empty
+            string secureStoragePassword = await SecureStorage.GetAsync("Password") ?? string.Empty; //get the password from secure storage
+            if (Preferences.ContainsKey("Email") && secureStoragePassword != null)
             {
                 Email = Preferences.Get("Email", string.Empty);
-                Password = Preferences.Get("Password", string.Empty);
+                Password = await SecureStorage.GetAsync("Password") ?? "לא מצוי"; //get the password from secure storage
                 // Navigate to the main page or perform login success actions
                 await App.Current.MainPage.DisplayAlert("התחברות", "!התחברת", "OK");
                 //TODO: Navigate to the special page  after successful login

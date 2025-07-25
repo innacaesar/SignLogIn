@@ -60,9 +60,10 @@ namespace SignLogIn.ViewModels
             await Task.Delay(100); // Simulate some delay for UI responsiveness
             if(IsChecked)
             {
-                //save the email and the password in the preferences
+                //save the email in the preferences 
                 Preferences.Set("Email", Email);
-                Preferences.Set("Password", Password);
+                //save the password in the secure storage
+                await SecureStorage.SetAsync("Password", Password);
 
             }
 
