@@ -63,6 +63,7 @@ namespace SignLogIn.ViewModels
                 //TODO: Navigate to the special page  after successful login
                 IsBusy = false; // Reset busy state
             }
+            else
             if (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
             {
                 // Check if user exists

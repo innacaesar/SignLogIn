@@ -1,15 +1,36 @@
-﻿namespace SignLogIn
+﻿using SignLogIn.Services;
+
+namespace SignLogIn
 {
     public partial class App : Application
     {
-        public App()
+        private readonly IAuthService _authService;
+        private readonly IServiceProvider _services;
+
+        public App(IAuthService authService, IServiceProvider services)
         {
             InitializeComponent();
+
+            _authService = authService;
+            _services = services;
+
+            _authService.AuthStatusChanged += OnAuthChanged;
+
+            if (_authService.IsLoggedIn)
+                MainPage = _services.GetRequiredService<MainShell>();
+            else
+                MainPage = new LoginShell();
         }
 
-        protected override Window CreateWindow(IActivationState? activationState)
+        private void OnAuthChanged()
         {
-            return new Window(new AppShell());
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                if (_authService.IsLoggedIn)
+                    MainPage = _services.GetRequiredService<MainShell>();
+                else
+                    MainPage = new LoginShell();
+            });
         }
     }
 }
