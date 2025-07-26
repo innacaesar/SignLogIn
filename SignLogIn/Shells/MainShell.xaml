@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SignLogIn.Shells.MainShell"
              xmlns:local="clr-namespace:SignLogIn.Views"
+                xmlns:views="clr-namespace:SignLogIn.Views"
                 Shell.FlyoutBehavior="Flyout"
              >
     <FlyoutItem Title="דף בית">
