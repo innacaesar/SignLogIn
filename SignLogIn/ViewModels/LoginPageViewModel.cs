@@ -11,8 +11,8 @@ namespace SignLogIn.ViewModels
     {
         //private readonly UsersDataBase _database;
         private readonly IUserRepository _repository;
+        private readonly IAuthService _authService; // Uncomment if you need to use AuthService
         private readonly IServiceProvider _services;
-
 
         [ObservableProperty]
         private string email;
@@ -32,16 +32,19 @@ namespace SignLogIn.ViewModels
             IsPassword = !IsPassword;
             EyeIcon = IsPassword ? FontHelper.OPEN_EYE_ICON : FontHelper.CLOSED_EYE_ICON;
         }
-        public LoginPageViewModel(IUserRepository repository, IServiceProvider provider)
+        public LoginPageViewModel(IUserRepository repository, IAuthService authService, IServiceProvider provider)
         {
             // _database = new UsersDataBase();
             _repository = repository;
+            _authService = authService;
             _services = provider;
-            // Initialize properties if needed
+            // Initialize properties
             Email = string.Empty;
             Password = string.Empty;
             Error = string.Empty;
-            IsBusy = false; // Initially not busy
+            IsPassword = true; // Default to password being hidden
+            EyeIcon = FontHelper.OPEN_EYE_ICON; // Default eye icon
+            IsBusy = false; // Default to not busy
 
 
         }
@@ -60,6 +63,7 @@ namespace SignLogIn.ViewModels
                 Password = await SecureStorage.GetAsync("Password") ?? "לא מצוי"; //get the password from secure storage
                 // Navigate to the main page or perform login success actions
                 await App.Current.MainPage.DisplayAlert("התחברות", "!התחברת", "OK");
+                await _authService.LoginAsync(Email, Password); // Call the login method from AuthService
                 //TODO: Navigate to the special page  after successful login
                 IsBusy = false; // Reset busy state
             }
@@ -74,6 +78,7 @@ namespace SignLogIn.ViewModels
                     Error = string.Empty; // Clear any previous error message
                     // Navigate to the main page or perform login success actions
                     await App.Current.MainPage.DisplayAlert("התחברות", "!התחברת", "OK");
+                    await _authService.LoginAsync(Email, Password); // Call the login method from AuthService
                     //TODO: Navigate to the special page  after successful login
                     IsBusy = false; // Reset busy state
                 }
@@ -98,6 +103,19 @@ namespace SignLogIn.ViewModels
            
 
 
+        }
+        [RelayCommand]
+        private async Task Login()
+        {
+            var success = await _authService.LoginAsync(Email, Password);
+            if (success)
+            {
+
+                // Navigate to the main page after successful login
+                await Shell.Current.GoToAsync("//MainPage");
+                //await App.Current.MainPage.DisplayAlert("AI", "!התחברת", "OK");
+
+            }
         }
     }
 }
