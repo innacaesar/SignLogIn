@@ -11,6 +11,8 @@ namespace SignLogIn.ViewModels
     {
         //private readonly UsersDataBase _database;
         private readonly IUserRepository _repository;
+        private readonly IServiceProvider _services;
+
 
         [ObservableProperty]
         private string email;
@@ -30,10 +32,11 @@ namespace SignLogIn.ViewModels
             IsPassword = !IsPassword;
             EyeIcon = IsPassword ? FontHelper.OPEN_EYE_ICON : FontHelper.CLOSED_EYE_ICON;
         }
-        public LoginPageViewModel(IUserRepository repository)
+        public LoginPageViewModel(IUserRepository repository, IServiceProvider provider)
         {
             // _database = new UsersDataBase();
             _repository = repository;
+            _services = provider;
             // Initialize properties if needed
             Email = string.Empty;
             Password = string.Empty;
@@ -86,11 +89,13 @@ namespace SignLogIn.ViewModels
             
         }
         [RelayCommand]
-        private async void NavigateToRegist(SignUpPage page)
+        private async void NavigateToRegist()
         {
             // Navigate to the sign-up page
 
-            await App.Current.MainPage.Navigation.PushAsync(page);
+            await App.Current.MainPage.Navigation.PushAsync(_services.GetRequiredService<SignUpPage>());
+           
+
 
         }
     }

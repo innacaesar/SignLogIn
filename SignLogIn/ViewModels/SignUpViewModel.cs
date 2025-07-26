@@ -11,6 +11,7 @@ namespace SignLogIn.ViewModels
     {
         //private readonly UsersDataBase _database;
         private readonly IUserRepository _repository;
+        private readonly IServiceProvider _services;
 
         [ObservableProperty]
         private string name;
@@ -39,10 +40,11 @@ namespace SignLogIn.ViewModels
         [ObservableProperty]
         private bool isChecked = false;
 
-        public SignUpViewModel(IUserRepository repository)
+        public SignUpViewModel(IUserRepository repository, IServiceProvider provider)
         {
             //_database = new UsersDataBase();
             _repository = repository;
+            _services = provider;
             // Initialize properties
             Name = string.Empty;
             Email = string.Empty;
@@ -126,7 +128,7 @@ namespace SignLogIn.ViewModels
         {
             // Navigate to the login page, not working with the view model
 
-            await App.Current.MainPage.Navigation.PushAsync(page);
+            await App.Current.MainPage.Navigation.PushAsync(_services.GetRequiredService<LoginPage>());
 
         }
     }
