@@ -77,7 +77,7 @@
             StrokeShape="RoundRectangle 20"
             StrokeThickness="1">
             <Entry
-    
+                Keyboard="Email"
                 FontSize="18"
                 Text="{Binding Email, Mode=TwoWay}"
                 Placeholder ="מייל"
@@ -90,7 +90,7 @@
             StrokeShape="RoundRectangle 20"
             StrokeThickness="1">
             <Entry
-    
+                Keyboard="Telephone"
                 FontSize="18"
                 Text="{Binding Phone, Mode=TwoWay}"
                 Placeholder ="טלפון"
