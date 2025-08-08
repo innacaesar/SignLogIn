@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SignLogIn.Services;
 using SignLogIn.Shells;
+using SignLogIn.Views;
 
 namespace SignLogIn
 {
@@ -9,6 +10,8 @@ namespace SignLogIn
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+            Routing.RegisterRoute("AdminPage", typeof(AdminPage));
+            Routing.RegisterRoute("MainPage", typeof(MainPage));
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -25,6 +28,9 @@ namespace SignLogIn
             builder.Services.AddTransient<Views.LoginPage>();
             builder.Services.AddSingleton<IAuthService, AuthService>();
             builder.Services.AddSingleton<MainShell>();
+           
+            builder.Services.AddTransient<Views.AdminPage>();
+            builder.Services.AddTransient<ViewModels.AdminPageViewModel>();
 
 
 

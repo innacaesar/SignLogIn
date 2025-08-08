@@ -4,6 +4,7 @@
              x:Class="SignLogIn.Views.LoginPage"
              Title="LoginPage"
              FlowDirection="RightToLeft"
+             
              IsBusy="{Binding IsBusy}">
 
     <!--  רקע דף  -->

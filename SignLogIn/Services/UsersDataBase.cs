@@ -17,8 +17,10 @@ namespace SignLogIn.Services
             string dbPath = Path.Combine(FileSystem.AppDataDirectory, "Users.db");//נבנה באופן אוטומטי בפעם הראשונה
             _connection = new SQLiteAsyncConnection(dbPath);
             _connection.CreateTableAsync<User>().Wait();
+            // Create the Users table if it doesn't exist
+            //ועוד טבלאות אם יש צורך
         }
-        
+
 
         public async Task<List<User>> GetUsersAsync()
         {
@@ -236,9 +238,22 @@ namespace SignLogIn.Services
             return user != null;
         }
         
-        
-       
-        
+        public Task<int> UpdateUserAsync(User user)
+        {
 
+            if (user.Id != 0)
+            {
+                return _connection.UpdateAsync(user);
+            }
+            else
+            {
+                throw new ArgumentException("User must have a valid Id to update.");
+            }
+        }
+        //  Returns the count of users in the database    
+        public int GetUsersCount()
+        {
+            return _connection.Table<User>().CountAsync().Result;
+        }
     }
     }

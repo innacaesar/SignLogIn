@@ -26,6 +26,8 @@ namespace SignLogIn.ViewModels
         private string eyeIcon = FontHelper.OPEN_EYE_ICON;
         [ObservableProperty]
         private bool _isBusy;
+        [ObservableProperty]
+        private bool isAdmin = false; // Default to not admin
         [RelayCommand]
         private void TogglePassword()
         {
@@ -61,10 +63,12 @@ namespace SignLogIn.ViewModels
             {
                 Email = Preferences.Get("Email", string.Empty);
                 Password = await SecureStorage.GetAsync("Password") ?? "לא מצוי"; //get the password from secure storage
+                
                 // Navigate to the main page or perform login success actions
-                await App.Current.MainPage.DisplayAlert("התחברות", "!התחברת", "OK");
+                //await App.Current.MainPage.DisplayAlert("התחברות", "!התחברת", "OK");
                 await _authService.LoginAsync(Email, Password); // Call the login method from AuthService
                 //TODO: Navigate to the special page  after successful login
+                
                 IsBusy = false; // Reset busy state
             }
             else
@@ -72,14 +76,29 @@ namespace SignLogIn.ViewModels
             {
                 // Check if user exists
                 var user = await _repository.GetUserByEmailAsync(Email);
+
+                //  לצורך הדגמה: ללא שמירת דברים בטלפון ואם יש צורך בגילוי מנהל האפליקציה
                 if (user != null && user.Password == Password)
                 {
+                    if (Email.Equals("admin@gmail.com") && Password.Equals("admin111"))
+                    {
+                        // If the user is an admin, set the IsAdmin property to true
+                        IsAdmin = true;
+                    }
+                    else
+                    {
+                        // If the user is not an admin, set the IsAdmin property to false
+                        IsAdmin = false;
+                    }
+                    Preferences.Set("IsAdmin", IsAdmin); // Save admin status in preferences
+
                     // User exists and password matches
                     Error = string.Empty; // Clear any previous error message
                     // Navigate to the main page or perform login success actions
-                    await App.Current.MainPage.DisplayAlert("התחברות", "!התחברת", "OK");
+                    //await App.Current.MainPage.DisplayAlert("התחברות", "!התחברת", "OK");
                     await _authService.LoginAsync(Email, Password); // Call the login method from AuthService
                     //TODO: Navigate to the special page  after successful login
+                   // App.Current.Windows[0].Page=new MainPage(); // Navigate to the main page
                     IsBusy = false; // Reset busy state
                 }
                 else
