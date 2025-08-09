@@ -20,6 +20,7 @@ namespace SignLogIn.Services
         Task<bool> IsUserExistsAsync(string email, string phone);
         Task<bool> IsValidUserAsync(string email, string password);
         Task<int> UpdateUserAsync(User user);
+        Task<User> GetUserByNameAsync(string name);
         //כמה ממשימות יש למשתמש?
         int GetUsersCount();
 

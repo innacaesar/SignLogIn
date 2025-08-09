@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SignLogIn.Models;
 using SignLogIn.Services;
@@ -36,8 +37,34 @@ namespace SignLogIn.ViewModels
         {
             var items = await _repository.GetUsersAsync();
             Items = new ObservableCollection<User>(items);
+        }
+        [RelayCommand]
+        private async void ItemTapped(string selectedName)
+        {
+           
+            if (string.IsNullOrEmpty(selectedName))
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Name is empty", "OK");
+                return;
+            }
+            
 
-        } 
-       
+            if (Items != null && Items.Count > 0)
+            {
+
+                //var selectedUser = Items.FirstOrDefault().//ok can see the first user
+
+                var selectedUser = Items.FirstOrDefault(u => u.Name == selectedName); //Name is empty!
+                
+
+                if (selectedUser != null)
+                {
+                    // TODO: Navigate to the user details page UserDetailsPage
+
+                    await App.Current.MainPage.DisplayAlert("User Selected", $"Name: {selectedUser.Name}\nEmail: {selectedUser.Email}\nPhone: {selectedUser.Phone}", "CLOSE", "DELETE USER?");
+                }
+            }
+        }
+
     }
 }

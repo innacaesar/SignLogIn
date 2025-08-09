@@ -50,7 +50,9 @@ namespace SignLogIn.Services
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _connection.Table<User>().FirstOrDefaultAsync(u => u.Email == email);
+           
         }
+        
         public async Task<User> GetUserByPhoneAsync(string phone)
         {
             return await _connection.Table<User>().FirstOrDefaultAsync(u => u.Phone == phone);
@@ -255,5 +257,11 @@ namespace SignLogIn.Services
         {
             return _connection.Table<User>().CountAsync().Result;
         }
+
+        public async Task<User> GetUserByNameAsync(string name)
+        {
+            return await _connection.Table<User>().FirstOrDefaultAsync(u => u.Name == name);
+        }
+        
     }
     }
