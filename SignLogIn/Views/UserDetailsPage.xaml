@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SignLogIn.Views.UserDetailsPage"
+             Title="User's Details">
+    <!--  רקע דף  -->
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0.0" Color="White" />
+            <GradientStop Offset="0.5" Color="Black" />
+            <GradientStop Offset="1.0" Color="LightGray" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <VerticalStackLayout
+ Padding="10"
+ Spacing="10"
+ VerticalOptions="Center">
+
+        <!--  שם  -->
+        <Label
+     FontAttributes="Bold"
+     FontSize="24"
+     HorizontalOptions="Center"
+     Text="{Binding PassName, Mode=TwoWay}"
+     TextColor="Snow" />
+        <!--  תמונה  -->
+        
+            
+            <Border  Padding="5"  
+     HeightRequest="150"   
+     WidthRequest="200" 
+     Stroke="#ccc"   
+     StrokeShape="RoundRectangle 100"
+     >
+
+                <Image Source="{Binding Image, Mode=TwoWay}" 
+      Aspect="AspectFill" 
+      HeightRequest="200" 
+      HorizontalOptions="Center" 
+      WidthRequest="200"/>
+            </Border>
+
+              
+        <!--  email  -->
+        <Border
+         Padding="10"
+         Stroke="#ccc"
+         StrokeShape="RoundRectangle 20"
+         StrokeThickness="1">
+            <Label
+             
+             FontSize="18"
+             Text="{Binding Email, Mode=TwoWay}"
+             
+             TextColor="Wheat" />
+        </Border>
+        <!--  טלפון  -->
+        <Border
+         Padding="10"
+         Stroke="#ccc"
+         StrokeShape="RoundRectangle 20"
+         StrokeThickness="1">
+            <Label
+            
+             FontSize="18"
+             Text="{Binding Phone, Mode=TwoWay}"
+             
+             TextColor="Wheat" />
+        </Border>
+        <Button Text="למחוק משתמש?" Command="{Binding DeleteUserCommand}"
+            FontSize="18" 
+            CornerRadius="20"
+            HorizontalOptions="Center" 
+            Background="Silver"
+            VerticalOptions="Center" />
+
+    </VerticalStackLayout>
+</ContentPage>

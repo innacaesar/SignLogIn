@@ -12,6 +12,7 @@ namespace SignLogIn
             var builder = MauiApp.CreateBuilder();
             Routing.RegisterRoute("AdminPage", typeof(AdminPage));
             Routing.RegisterRoute("MainPage", typeof(MainPage));
+            Routing.RegisterRoute(nameof(UserDetailsPage), typeof(UserDetailsPage));
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -31,6 +32,8 @@ namespace SignLogIn
            
             builder.Services.AddTransient<Views.AdminPage>();
             builder.Services.AddTransient<ViewModels.AdminPageViewModel>();
+            builder.Services.AddTransient<Views.UserDetailsPage>();
+            builder.Services.AddTransient<ViewModels.UserDetailsPageViewModel>();
 
 
 

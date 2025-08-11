@@ -7,18 +7,54 @@
              xmlns:viewmodel="clr-namespace:SignLogIn.ViewModels"
              Shell.FlyoutBehavior="Flyout"
              >
-    <Shell.BindingContext>
-        <viewmodel:MainShellViewModel />
-    </Shell.BindingContext>
+    <Shell.FlyoutBackground>
+        <LinearGradientBrush StartPoint="0,0"
+                     EndPoint="1,1">
+            <GradientStop Color="White"
+                  Offset="0.1" />
+            <GradientStop Color="#454545"
+                  Offset="0.7" />
+            <GradientStop Color="White"
+                  Offset="1.0" />
+        </LinearGradientBrush>
+    </Shell.FlyoutBackground>
+    <Shell.Resources>
+        <Style x:Key="BaseStyle"
+       TargetType="Element">
+            <Setter Property="Shell.BackgroundColor"
+            Value="#455A64" />
+            <Setter Property="Shell.ForegroundColor"
+            Value="White" />
+            <Setter Property="Shell.DisabledColor"
+            Value="#B4FFFFFF" />
+            <Setter Property="Shell.UnselectedColor"
+            Value="WhiteSmoke" />
+        </Style>
+        <Style x:Key="MyShell"
+       TargetType="Element"
+       BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Shell.TitleColor"
+        Value="#95FFFFFF" />
+        </Style>
 
-    <FlyoutItem Title="דף בית">
-        <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
+    </Shell.Resources>
+
+    <FlyoutItem Title="דף בית" Icon="home_24dp.png">
+        <ShellContent ContentTemplate="{DataTemplate views:MainPage}" 
+             Style="{StaticResource MyShell}"          
+                      />
     </FlyoutItem>
 
-    <FlyoutItem Title="דף מנהל" IsVisible="{Binding IsAdmin}">
-        <ShellContent ContentTemplate="{DataTemplate views:AdminPage}" />
+    <FlyoutItem Title="דף מנהל" IsVisible="{Binding IsAdmin}" Icon="format_list_bulleted_24dp.png">
+        <ShellContent ContentTemplate="{DataTemplate views:AdminPage}" 
+                       Style="{StaticResource MyShell}"/>
     </FlyoutItem>
 
-    <MenuItem Text="סגור " Clicked="OnLogoutClicked" />
+    <MenuItem Text="סגור "  Clicked="OnLogoutClicked">
+
+        <MenuItem.IconImageSource>
+            <FontImageSource Glyph="&#xe9ba;" FontFamily="MaterialSymbols"  Color="Black"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
 
 </Shell>

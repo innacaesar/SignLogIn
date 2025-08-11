@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SignLogIn.Views.SignUpPage"
              FlowDirection="RightToLeft"
-             Title="SignUpPage">
+             Title="SignUp Page">
     <!--  רקע דף  -->
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -17,7 +17,7 @@
     Padding="10"
     Spacing="10"
     VerticalOptions="Center">
-        <Image Source="logoor.png" HorizontalOptions="End" VerticalOptions="Start" TranslationY="-60"/>
+        
         <!--  כותרת  -->
         <Label
         FontAttributes="Bold"
@@ -25,7 +25,32 @@
         HorizontalOptions="Center"
         Text="הרשמה"
         TextColor="Snow" />
-
+        <!--  תמונה  -->
+        <FlexLayout JustifyContent="SpaceAround"
+                        AlignItems="Center"
+                        Direction="Row" 
+                        Wrap="Wrap">
+            <Button Text="להעלות תמונה" Command="{Binding PickImageCommand}"
+         FontSize="18" 
+         CornerRadius="20"
+         HorizontalOptions="Center" 
+         Background="Silver"
+         VerticalOptions="Center" />
+            <Border  Padding="5"  
+        HeightRequest="150"   
+        WidthRequest="200" 
+        Stroke="#ccc"   
+        StrokeShape="RoundRectangle 100"
+        >
+           
+            <Image Source="{Binding Image, Mode=TwoWay}" 
+         Aspect="AspectFill" 
+         HeightRequest="200" 
+         HorizontalOptions="Center" 
+         WidthRequest="200"/>
+        </Border>
+        
+   </FlexLayout>
         <!--  שם משתמש  -->
         <Border
         Padding="10"

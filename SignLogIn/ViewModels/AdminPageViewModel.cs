@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SignLogIn.Models;
 using SignLogIn.Services;
+using SignLogIn.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,30 +42,25 @@ namespace SignLogIn.ViewModels
         [RelayCommand]
         private async void ItemTapped(string selectedName)
         {
-           
-            if (string.IsNullOrEmpty(selectedName))
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "Name is empty", "OK");
-                return;
-            }
-            
-
             if (Items != null && Items.Count > 0)
             {
-
-                //var selectedUser = Items.FirstOrDefault().//ok can see the first user
-
-                var selectedUser = Items.FirstOrDefault(u => u.Name == selectedName); //Name is empty!
+              var selectedUser = Items.FirstOrDefault(u => u.Name == selectedName); 
                 
-
                 if (selectedUser != null)
                 {
-                    // TODO: Navigate to the user details page UserDetailsPage
+                    //await App.Current.MainPage.DisplayAlert("User Selected", $"Name: {selectedUser.Name}\nEmail: {selectedUser.Email}\nPhone: {selectedUser.Phone}", "CLOSE", "DELETE USER?");
 
-                    await App.Current.MainPage.DisplayAlert("User Selected", $"Name: {selectedUser.Name}\nEmail: {selectedUser.Email}\nPhone: {selectedUser.Phone}", "CLOSE", "DELETE USER?");
+                    
+                    //Navigate to the user details page UserDetailsPage
+                    await Shell.Current.GoToAsync($"{nameof(UserDetailsPage)}?passName={selectedUser.Name}");
+                    
+
+
                 }
             }
         }
+
+       
 
     }
 }

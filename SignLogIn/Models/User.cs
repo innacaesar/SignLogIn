@@ -10,7 +10,7 @@ namespace SignLogIn.Models
         public string? Email { get; set; }
         public string? Password { get; set; }
         public string? Phone { get; set; }
-        public string? Image { get; set; } // Optional: User profile image
+        public string? Image { get; set; } 
         
 
     }

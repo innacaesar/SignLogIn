@@ -40,6 +40,9 @@ namespace SignLogIn.ViewModels
         [ObservableProperty]
         private bool isChecked = false;
 
+        [ObservableProperty]
+        private string image;
+
         public SignUpViewModel(IUserRepository repository, IServiceProvider provider)
         {
             //_database = new UsersDataBase();
@@ -60,7 +63,7 @@ namespace SignLogIn.ViewModels
         {   //TODO : להעביר לכניסה
             IsBusy = true; // מסמן שהאפליקציה בתהליך (להצגת מחוון טעינה)
             await Task.Delay(100); // Simulate some delay for UI responsiveness
-            if(IsChecked)
+            if (IsChecked)
             {
                 //save the email in the preferences 
                 Preferences.Set("Email", Email);
@@ -103,7 +106,7 @@ namespace SignLogIn.ViewModels
                 }
 
                 //await App.Current.MainPage.DisplayAlert("הרשמה", "  הרשמה בוצעה בהצלחה " + Password, "אישור");
-                var newUser = new User { Name = Name, Password = Password, Phone = Phone, Email = Email };
+                var newUser = new User { Name = Name, Password = Password, Phone = Phone, Email = Email, Image=Image };
                 await _repository.SaveUserAsync(newUser);
                 Error = "הרשמה בוצעה בהצלחה";
                 IsBusy = false; // מסיים את מצב "עסוק"
@@ -131,5 +134,31 @@ namespace SignLogIn.ViewModels
             await App.Current.MainPage.Navigation.PushAsync(_services.GetRequiredService<LoginPage>());
 
         }
+        [RelayCommand]
+        private async void PickImage()
+        {
+            var result = await FilePicker.PickAsync(new PickOptions
+            {
+                PickerTitle = "בחר תמונה",
+                FileTypes = FilePickerFileType.Images
+            });
+            if (result != null)
+            {
+                Image = result.FullPath;
+                OnPropertyChanged(nameof(User));
+                //Preferences.Set("ImagePath", result.FullPath);
+               
+            }
+
+
+        }
+
+        
+
+
+
     }
-}
+
+        
+
+    }

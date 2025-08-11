@@ -9,10 +9,13 @@
     Title="SignLogIn">
 
     <ShellContent
-        Title="Home"
+        Title=""
         ContentTemplate="{DataTemplate local:LoginPage}"
         Route="LoginPage" />
 
-   
+    <ShellContent
+    Title=""
+    ContentTemplate="{DataTemplate local:UserDetailsPage}"
+    Route="UserDetailsPage" />
 
 </Shell>
