@@ -60,7 +60,20 @@ namespace SignLogIn.ViewModels
             }
         }
 
-       
+        [RelayCommand]
+        private async Task DeleteUser(User userToDelete)
+        {
+            if (userToDelete == null)
+                return;
+
+            // מחיקה מהמסד
+            await _repository.DeleteUserAsync(userToDelete);
+
+            // מחיקה מה־ObservableCollection
+            Items.Remove(userToDelete);
+        }
+
+
 
     }
 }

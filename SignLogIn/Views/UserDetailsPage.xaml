@@ -68,12 +68,7 @@
              
              TextColor="Wheat" />
         </Border>
-        <Button Text="למחוק משתמש?" Command="{Binding DeleteUserCommand}"
-            FontSize="18" 
-            CornerRadius="20"
-            HorizontalOptions="Center" 
-            Background="Silver"
-            VerticalOptions="Center" />
+        
 
     </VerticalStackLayout>
 </ContentPage>

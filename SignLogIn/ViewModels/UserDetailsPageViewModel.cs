@@ -9,8 +9,19 @@ namespace SignLogIn.ViewModels
     {
         private readonly IUserRepository _repository;
         private readonly IServiceProvider _services;
-        [ObservableProperty]
+        //[ObservableProperty]
+        //private string passName;
+
         private string passName;
+        public string PassName
+        {
+            get => passName;
+            set
+            {
+                SetProperty(ref passName, value);
+                _ = LoadUserDetails(); ;// טוען ברגע שהפרמטר מגיע
+            }
+        }
 
         [ObservableProperty]
         private string name;
@@ -27,13 +38,13 @@ namespace SignLogIn.ViewModels
             _repository = repository;
             _services = provider;
 
-            _ = LoadUserDetails(); 
+            //_ = LoadUserDetails(); 
         }
         [RelayCommand]
         private async Task LoadUserDetails()
         {
            
-            await Task.Delay(300); // Simulate some delay for UI responsiveness אחרת יש בעיה עם הזמן
+            //await Task.Delay(300); // Simulate some delay for UI responsiveness אחרת יש בעיה עם הזמן
             var user = await _repository.GetUserByNameAsync(PassName);
            
             if (user != null)

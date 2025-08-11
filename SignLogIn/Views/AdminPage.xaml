@@ -5,13 +5,14 @@
              xmlns:viewmodels="clr-namespace:SignLogIn.ViewModels"
              xmlns:local="clr-namespace:SignLogIn.Views"
              Title="Admin Page">
-    <Grid>
+   
         <!-- התוכן הראשי -->
         <ScrollView>
             <VerticalStackLayout Padding="20" Spacing="10">
                 <CollectionView ItemsSource="{Binding Items}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate  >
+                        <Grid Padding="10" ColumnDefinitions="*,Auto">
                             <Border Stroke="Gray" StrokeShape="RoundRectangle 15" Padding="10" Margin="5">
                                 <Label Text="{Binding Name, Mode=TwoWay}"
                                        FontSize="18"
@@ -22,12 +23,19 @@
                                     </Label.GestureRecognizers>
                                 </Label>
                             </Border>
-                        </DataTemplate>
+                            <Button Text="🗑"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AdminPageViewModel}}, Path=DeleteUserCommand}"
+                            CommandParameter="{Binding .}"
+                            Grid.Column="1"
+                            BackgroundColor="Transparent"
+                            />
+                        </Grid>
+                    </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
 
        
-    </Grid>
+    
 </ContentPage>
