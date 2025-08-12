@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SignLogIn.Views.LoginPage"
-             Title="LoginPage"
+             Title="Login"
              FlowDirection="RightToLeft"
              
              IsBusy="{Binding IsBusy}">
@@ -20,7 +20,7 @@
 Padding="10"
 Spacing="10"
 VerticalOptions="Center">
-        <Image Source="logoor.png" HorizontalOptions="End" TranslationY="-178"/>
+        <Image Source="logoor.png" HorizontalOptions="End" TranslationY="-152"/>
         
 
         <!--  סיסמה עם כפתור צפייה  -->
@@ -85,7 +85,17 @@ VerticalOptions="Center">
     IsVisible="True"
     Text="{Binding Error, Mode=TwoWay}"
     TextColor="Tomato" />
-
+        <!--   שיחזור סיסמה  -->
+        <Label Text="שכחת סיסמה?"
+    HorizontalTextAlignment="Center"
+    FontSize="18"
+    TextColor="White"
+    Margin="0,10,0,0">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer
+          Command="{Binding ResetPasswordCommand}"/>
+            </Label.GestureRecognizers>
+        </Label>
         <!--   חזרה לדף הרשמה  -->
         <Label Text="אין חשבון? להירשם"
            HorizontalTextAlignment="Center"

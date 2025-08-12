@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using SignLogIn.Helper;
 using SignLogIn.Services;
 using SignLogIn.Views;
+using System.Diagnostics;
 
 namespace SignLogIn.ViewModels
 {
@@ -135,6 +136,71 @@ namespace SignLogIn.ViewModels
                 //await App.Current.MainPage.DisplayAlert("AI", "!התחברת", "OK");
 
             }
+        }
+        [RelayCommand]
+        private async Task ResetPassword()
+        {
+            bool answer = await App.Current.MainPage.DisplayAlert("שחזור סיסמה", "האם לשחזר סיסמה?", "שלח sms", "בטל");
+            Debug.WriteLine("Answer: " + answer);
+            if (!answer)
+            {
+                return; // User chose to cancel the reset
+            }
+            // TODO implement the logic to reset the password, such as sending a password to the user's phone.
+            string number = await App.Current.MainPage.DisplayPromptAsync("שחזור סיסמה", "נא להקיש את מספר הטלפון שלך", "שלח", "בטל", "מספר טלפון", -1, Keyboard.Telephone);
+            Debug.WriteLine("Number: " + number);
+            if (!string.IsNullOrEmpty(number))
+            {
+                // Check if the user exists by phone number
+                var user = await _repository.GetUserByPhoneAsync(number);
+                if (user != null)
+                {
+                    // Generate a new password (for demonstration purposes, you can implement your own logic)
+                    string newPassword = GenerateRandomPassword();
+                    user.Password = newPassword; // Update the user's password
+                    // Save the updated user to the repository
+                    await _repository.UpdateUserAsync(user);
+                    // Send the new password via SMS
+                    await SendSmsAsync(number, $"Your new password is: {newPassword}");
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("שגיאה", "משתמש לא קיים עם מספר זה", "אישור");
+                }
+            }
+
+
+        }
+
+        public async Task SendSmsAsync(string number, string yourMessage)
+        {
+            try
+            {
+                var message = new SmsMessage(yourMessage, new[] { number });
+                await Sms.ComposeAsync(message);
+            }
+            catch (FeatureNotSupportedException ex)
+            {
+                // SMS is not supported on this device.
+                Console.WriteLine($"SMS not supported: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Other errors.
+                Console.WriteLine($"Failed to send SMS: {ex.Message}");
+            }
+        }
+
+        private string GenerateRandomPassword(int length = 8)
+        {
+            const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            Random random = new Random();
+            char[] chars = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = validChars[random.Next(validChars.Length)];
+            }
+            return new string(chars);
         }
     }
 }
